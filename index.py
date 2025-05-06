@@ -1,5 +1,6 @@
 import argparse
 import time
+import csv
 
 import selenium
 from selenium import webdriver
@@ -16,7 +17,7 @@ def search_jobs(keywords):
 
     # add driver options for performance
     option = webdriver.ChromeOptions()
-    # option.add_argument("--headless=new")
+    option.add_argument("--headless=new")
     option.add_argument("--disable-gpu")
     option.add_argument("--disable-extensions")
 
@@ -26,28 +27,37 @@ def search_jobs(keywords):
         driver.get(url)
         time.sleep(2)
 
-        # TODO: get correct selector for keyword input
         # locate keyword input field
-        search_input = driver.find_element(By.CSS_SELECTOR, ".search-form__keywords .react-select__input")
-        print(search_input)
+        search_input = driver.find_element(By.CSS_SELECTOR, ".search-form__keywords .react-select__input-container > input")
 
-        search_input.clear()
         search_input.send_keys(keywords)
         search_input.send_keys(Keys.RETURN)
 
-
-        show_results_button = driver.find_element(By.CSS_SELECTOR, "button.jsx-2929518284")
+        show_results_button = driver.find_element(By.CSS_SELECTOR, ".search-form-footer button")
         show_results_button.click()
 
         time.sleep(5)
 
-        # retrieve job job titles
-        job_titles = driver.find_elements(By.CSS_SELECTOR, "div[class*='vacancy-item__title']")
+        job_cards = driver.find_elements(By.CLASS_NAME, "vacancies-list__item")
+        jobs = []
 
         print(f"Search results for '{keywords}':\n")
-        for idx, title in enumerate(job_titles, start=1):
-            print(f"{idx}. {title.text}")
+        for idx, card in enumerate(job_cards, start=1):
+            # retrieve card info
+            title = card.find_element(By.CLASS_NAME, "vacancy-item__title")
+            location = card.find_element(By.CLASS_NAME, "vacancy-item__locations")
 
+            jobs.append({
+                "title": title.text,
+                "location": location.text,
+                "link": title.get_attribute('href'),
+            })
+
+        print("Collected items successfully!")
+        with open("jobs.csv", "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=["title", "location", "link"])
+            writer.writeheader()
+            writer.writerows(jobs)
 
     except Exception as e:
         print(f"An error occured: {e}")
