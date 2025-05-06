@@ -17,7 +17,7 @@ def search_jobs(keywords):
 
     # add driver options for performance
     option = webdriver.ChromeOptions()
-    option.add_argument("--headless=new")
+    # option.add_argument("--headless=new")
     option.add_argument("--disable-gpu")
     option.add_argument("--disable-extensions")
 
@@ -30,7 +30,8 @@ def search_jobs(keywords):
         # locate keyword input field
         search_input = driver.find_element(By.CSS_SELECTOR, ".search-form__keywords .react-select__input-container > input")
 
-        search_input.send_keys(keywords)
+        search_query = ' '.join(keywords)
+        search_input.send_keys(search_query)
         search_input.send_keys(Keys.RETURN)
 
         show_results_button = driver.find_element(By.CSS_SELECTOR, ".search-form-footer button")
@@ -66,7 +67,7 @@ def search_jobs(keywords):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Search for jobs on cv.lv")
-    parser.add_argument("keywords", help="Keywords to search for")
+    parser.add_argument("keywords", nargs="+", help="Keywords to search for")
     args = parser.parse_args()
 
     search_jobs(args.keywords)
