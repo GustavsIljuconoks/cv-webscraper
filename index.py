@@ -39,6 +39,28 @@ def search_jobs(keywords, location, salary):
                 search_input.send_keys(keywords)
                 search_input.send_keys(Keys.RETURN)
 
+        if location:
+            location_input = driver.find_element(By.CSS_SELECTOR, ".search-form__locations .react-select__input-container > input")
+
+            if len(location.split()) > 1:
+                location_query = location.split(" ")
+                for location in location_query:
+                    location_input.send_keys(location)
+
+                    time.sleep(1)
+                    location_dropdown = driver.find_element(By.CSS_SELECTOR, ".react-select__menu-portal")
+                    options = location_dropdown.find_elements(By.CSS_SELECTOR, ".react-select__option")
+                    if options:
+                        options[0].click()
+            else:
+                location_input.send_keys(location)
+                time.sleep(1)
+
+                location_dropdown = driver.find_element(By.CSS_SELECTOR, ".react-select__menu-portal")
+                options = location_dropdown.find_elements(By.CSS_SELECTOR, ".react-select__option")
+                if options:
+                    options[0].click()
+
         if salary:
             toggle_more = driver.find_element(By.CSS_SELECTOR, ".search-form__additional-toggle button")
             toggle_more.click()
@@ -48,10 +70,6 @@ def search_jobs(keywords, location, salary):
             salary_input.send_keys(int(salary))
             salary_input.send_keys(Keys.RETURN)
 
-        # TODO: Process location input
-        if location:
-            pass
-
         # Add delay for button update
         time.sleep(2)
         show_results_button = driver.find_element(By.CSS_SELECTOR, ".search-form-footer button")
@@ -60,6 +78,7 @@ def search_jobs(keywords, location, salary):
             return
         show_results_button.click()
 
+        print("Processing vacancies")
         time.sleep(5)
         job_cards = driver.find_elements(By.CLASS_NAME, "vacancies-list__item")
         jobs = []
