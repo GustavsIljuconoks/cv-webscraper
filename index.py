@@ -16,7 +16,7 @@ def search_jobs(keywords, location, salary):
 
     # add driver options for performance
     option = webdriver.ChromeOptions()
-    option.add_argument("--headless=new")
+    # option.add_argument("--headless=new")
     option.add_argument("--disable-gpu")
     option.add_argument("--disable-extensions")
 
@@ -52,7 +52,12 @@ def search_jobs(keywords, location, salary):
         if location:
             pass
 
+        # Add delay for button update
+        time.sleep(2)
         show_results_button = driver.find_element(By.CSS_SELECTOR, ".search-form-footer button")
+        if "btn--type-disabled" in show_results_button.get_attribute('class').split():
+            print("Try other filters")
+            return
         show_results_button.click()
 
         time.sleep(5)
