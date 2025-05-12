@@ -1,5 +1,4 @@
 import time
-import csv
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
@@ -76,15 +75,12 @@ def scrape_cv_lv(driver, keywords, location, salary):
             jobs.append({
                 "title": title.text,
                 "location": location.text,
-                "link": title.get_attribute('href'),
+                "link": title.get_attribute('href')
             })
 
         print("Collected items successfully!")
-        with open("jobs.csv", "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=["title", "location", "link"])
-            writer.writeheader()
-            writer.writerows(jobs)
+        return jobs
 
     except Exception as e:
         print(f"An error occured: {e}")
-
+        return []
