@@ -1,4 +1,5 @@
 from utils.browser import get_driver
+from utils.search_history import add_search_to_history
 from scrapers.cv_lv import scrape_cv_lv
 from scrapers.visidarbi_lv import scrape_visidarbi_lv
 import csv
@@ -9,6 +10,8 @@ if __name__ == "__main__":
     keywords = input("Enter keywords: ")
     location = input("Enter location: ")
     salary = input("Enter salary: ")
+
+    add_search_to_history(keywords, location, salary)
 
     driver = get_driver()
     jobs = []  
