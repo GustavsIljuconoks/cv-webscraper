@@ -11,22 +11,29 @@ Projekts nodrošina iespēju ērti apkopot rezultātus no dažādām mājaslapā
 - **Darba vakances meklēšana**: Lietotāji var meklēt darba sludinājumus no dažādām platformām.
 - **Filtrēšanas iespējas**: Iespēja filtrēt rezultātus pēc atslēgvārdiem, algas un atrašanās vietas.
 - **Datu saglabāšana**: Iegūtie dati tiek automātiski saglabāti CSV formā.
+- **Meklēšanas vēsture**: Sistēma saglabā pēdējo 5 meklēšanas rezultātu vēsturi, ko var apskatīt galvenajā izvēlnē.
 
 ### Turpmākās attīstības iespējas
 - Paplašināt atbalstītos darba sludinājumu avotus
 - Izveidot grafisko lietotāja interfeisu (GUI) vai mājaslapu
 - Pievienot papildu filtrēšanas opcijas (darba kategorijas, uzņēmuma tips, u.c.)
+- Implementēt automātisko paziņojumu sistēmu par jauniem darba sludinājumiem
 
 ## Pakotnes
 - `selenium`: Dinamisko tīmekļa lapu ielādei
 - `chromedriver-py`: Chrome draivera automatizētai instalēšanai
-- `time`: Gaidīšanas laika iestatīšanai starp darbībām 
-- `csv`: Datu saglabāšanai un apstrādei CSV formātā 
+- `time`: Gaidīšanas laika iestatīšanai starp darbībām
+- `csv`: Datu saglabāšanai un apstrādei CSV formātā
+- `json`: Datu serializēšanai JSON formātā
+- `collections`: Specializēti datu tipu importēšanai (t.i `deque`)
+- `os`: Operētājsistēmu atkarīgu funkcionalitāšu izmantošanai
+- `datetime`: Datuma un laika ierakstīšanas implementēšanai
 
 ## Datu struktūras
 Projekts izmanto šādas datu struktūras:
 - Saraksti (list): Darba sludinājumu saglabāšanai
 - Vārdnīcas (dict): Darba sludinājumu atribūtu glabāšanai
+- Rinda (deque): Meklēšanas vēstures pārvaldībai ar ierobežotu izmēru
 
 ### Iegūto datu formāts
 Katrs darba sludinājums tiek saglabāts kā vārdnīca ar šādiem laukiem:
