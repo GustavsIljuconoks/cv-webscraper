@@ -14,7 +14,10 @@ if __name__ == "__main__":
     jobs = []  
     
     try:
+        print("\nScraping jobs from visidarbi.lv...")
         jobs.extend(scrape_visidarbi_lv(driver, keywords, location, salary))
+
+        print("\nScraping jobs from cv.lv...")
         jobs.extend(scrape_cv_lv(driver, keywords, location, salary))
         
         if jobs:
